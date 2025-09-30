@@ -4,6 +4,8 @@ import Features from "../components/Features/Features"
 import Footer from "../components/Footer/Footer"
 import FAQ from "../components/FAQ/FAQ"
 import CTA from "../components/CTA/CTA"
+import Testimonials from "../components/Testimonials/Testimonials"
+import FloatingToast from "../components/Toast/FloatingToast"
 
 export default function ScrollPage() {
   return (
@@ -14,10 +16,12 @@ export default function ScrollPage() {
           <Hero />
           <Features />
           <FAQ />
+          <Testimonials />
           <CTA />
         </main>
         <Footer />
       </div>
+      <FloatingToast />
     </div>
   )
 }

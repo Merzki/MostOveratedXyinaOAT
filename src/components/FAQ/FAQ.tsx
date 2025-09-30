@@ -25,7 +25,7 @@ export default function FAQ() {
   const isOpen = (id: string) => open === id
 
   return (
-    <section id="faq" className="relative h-screen snap-start overflow-hidden bg-neutral-100 text-neutral-900">
+    <section id="faq" data-header-bg="rgba(245,245,244,0.8)" className="relative h-screen snap-start overflow-hidden bg-neutral-100 text-neutral-900">
       {open && (
         <>
           <div

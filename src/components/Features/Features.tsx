@@ -1,6 +1,6 @@
 export default function Features() {
   return (
-    <section id="features" className="relative h-screen snap-start overflow-hidden bg-white text-black">
+    <section id="features" data-header-bg="rgba(255,255,255,0.75)" className="relative h-screen snap-start overflow-hidden bg-white text-black">
       <div className="absolute inset-0 bg-[conic-gradient(from_45deg,transparent_0_20%,#fde047_20%_25%,transparent_25%_45%,#e11d48_45%_50%,transparent_50%_70%,#22d3ee_70%_75%,transparent_75%_100%)] opacity-10" />
 
       <div className="relative z-10 mx-auto grid h-full max-w-6xl grid-cols-1 items-center gap-10 px-6 py-16 md:grid-cols-12">

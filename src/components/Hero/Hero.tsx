@@ -2,6 +2,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
+      data-header-bg="rgba(253,224,71,0.7)"
       className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-black text-white"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)]" />
