@@ -6,6 +6,7 @@ import FAQ from "../components/FAQ/FAQ"
 import CTA from "../components/CTA/CTA"
 import Testimonials from "../components/Testimonials/Testimonials"
 import FloatingToast from "../components/Toast/FloatingToast"
+import Pricing from "../components/Pricing/Pricing"
 
 export default function ScrollPage() {
   return (
@@ -17,6 +18,7 @@ export default function ScrollPage() {
           <Features />
           <FAQ />
           <Testimonials />
+          <Pricing />
           <CTA />
         </main>
         <Footer />

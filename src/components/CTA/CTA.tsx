@@ -2,6 +2,7 @@ export default function CTA() {
   return (
     <section
       id="cta"
+      data-header-bg="rgba(253,224,71,0.85)"
       className="relative flex h-screen snap-start items-center justify-center overflow-hidden bg-yellow-300"
     >
       <div className="absolute inset-0 bg-[repeating-linear-gradient(135deg,transparent_0_16px,rgba(0,0,0,0.06)_16px_32px)]" />
