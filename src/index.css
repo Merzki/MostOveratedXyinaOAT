@@ -12,7 +12,38 @@
   50% { transform: translateY(4px); }
 }
 
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-1px, 1px) rotate(-0.4deg); }
+  40% { transform: translate(1px, -1px) rotate(0.3deg); }
+  60% { transform: translate(-1px, -1px) rotate(-0.2deg); }
+  80% { transform: translate(1px, 1px) rotate(0.4deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes glitch {
+  0% { text-shadow: 1px 0 red, -1px 0 cyan; }
+  20% { text-shadow: -2px 0 red, 2px 0 cyan; }
+  40% { text-shadow: 2px 0 red, -2px 0 cyan; }
+  60% { text-shadow: -1px 0 red, 1px 0 cyan; }
+  80% { text-shadow: 3px 0 red, -3px 0 cyan; }
+  100% { text-shadow: 0 0 red, 0 0 cyan; }
+}
+
+@keyframes diagMarquee {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
 @layer utilities {
   .animate-wiggle { animation: wiggle 0.5s ease-in-out infinite; }
   .animate-bob { animation: bob 1.2s ease-in-out infinite; }
+  .animate-shake { animation: shake 0.35s steps(2, end) infinite; }
+  .animate-glitch { animation: glitch 700ms steps(2, end) infinite; }
+  .animate-diag-marquee { animation: diagMarquee 12s linear infinite; }
+  .bg-photocopy { background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 6px);
+      filter: contrast(105%) brightness(98%);
+  }
 }

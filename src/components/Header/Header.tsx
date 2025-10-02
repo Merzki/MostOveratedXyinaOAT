@@ -34,7 +34,13 @@ export default function Header() {
           <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#pricing">Pricing</a>
           <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#cta">CTA</a>
         </nav>
-        <button className="group inline-flex items-center gap-2 rounded border border-black bg-black px-3 py-1.5 text-xs font-extrabold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-black">
+        <button
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent("overscroll:do-not-click"))
+          }}
+          className="group inline-flex items-center gap-2 rounded border border-black bg-black px-3 py-1.5 text-xs font-extrabold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-black"
+          aria-label="Do not click"
+        >
           <span>Do Not Click</span>
           <span className="block h-2 w-2 rotate-45 bg-white transition group-hover:bg-black" />
         </button>

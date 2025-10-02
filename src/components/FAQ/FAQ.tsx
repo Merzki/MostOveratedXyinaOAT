@@ -18,14 +18,31 @@ const items: Item[] = [
     q: "What’s the point of this page?",
     a: "To guide you through 7 screens just to say: ‘scrolling is a choice too’.",
   },
+  {
+    id: "toast",
+    q: "How do I silence that annoying toast?",
+    a: "You must absolutely not press the big ‘DO NOT CLICK’ in the header. That would be a violation.",
+  },
 ]
 
 export default function FAQ() {
   const [open, setOpen] = useState<string | null>(null)
   const isOpen = (id: string) => open === id
 
+  const stamps = ["SCAM", "FAKE", "NO EXIT", "SCROLL TAX"] as const
+
   return (
     <section id="faq" data-header-bg="rgba(245,245,244,0.8)" className="relative h-screen snap-start overflow-hidden bg-neutral-100 text-neutral-900">
+      <div className="pointer-events-none absolute inset-0 -rotate-45 opacity-20 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
+        <div className="absolute -inset-1 flex flex-col gap-10 animate-diag-marquee">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="whitespace-nowrap text-3xl font-black tracking-[0.35em] text-red-700 mix-blend-overlay opacity-50">
+              SCROLL TO OBEY — QUESTION EVERYTHING — SCROLL TO OBEY — QUESTION EVERYTHING —
+            </div>
+          ))}
+        </div>
+      </div>
+
       {open && (
         <>
           <div
@@ -34,7 +51,7 @@ export default function FAQ() {
           />
           <div className="pointer-events-none fixed inset-0 z-10 grid place-items-center">
             <div className="select-none text-center text-xs font-extrabold uppercase tracking-[0.4em] text-white/40">
-              too late to go back
+              subject under scroll
             </div>
           </div>
         </>
@@ -42,12 +59,12 @@ export default function FAQ() {
 
       <div className="relative z-20 mx-auto flex h-full max-w-6xl flex-col justify-center gap-6 px-6 py-16">
         <header className="mb-2">
-          <h2 className="relative inline-block bg-yellow-300 px-2 text-3xl font-black tracking-tight md:text-5xl">
+          <h2 className="relative inline-block bg-black px-2 text-3xl font-black tracking-tight text-white md:text-5xl">
             <span className="relative">FAQ</span>
-            <span className="absolute left-0 top-0 -translate-x-[2px] translate-y-[2px] select-none text-pink-500/60 blur-[0.3px]">FAQ</span>
+            <span className="absolute left-0 top-0 -translate-x-[2px] translate-y-[2px] select-none text-red-600/70 blur-[0.3px]">FAQ</span>
           </h2>
-          <p className="mt-2 max-w-xl text-xs font-extrabold uppercase tracking-[0.25em] text-neutral-500">
-            questions you never asked
+          <p className="mt-2 max-w-xl text-xs font-extrabold uppercase tracking-[0.25em] text-neutral-600">
+            interrogation of your scroll
           </p>
         </header>
 
@@ -55,10 +72,12 @@ export default function FAQ() {
           {items.map((it, idx) => {
             const tilts = ["-rotate-1", "rotate-1", "-rotate-2", "rotate-2"] as const
             const tilt = tilts[idx % tilts.length]
+            const stamp = stamps[idx % stamps.length]
+            const isHiddenBottom = it.id === "purpose" 
             return (
               <li key={it.id} className={`relative ${tilt}`}>
                 <button
-                  className="group relative flex w-full items-center justify-between gap-4 border-2 border-black bg-white px-4 py-3 text-left font-extrabold transition hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000] hover:animate-wiggle motion-reduce:transition-none"
+                  className="group relative flex w-full items-center justify-between gap-4 border-2 border-black bg-white px-4 py-3 text-left font-extrabold transition hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000] hover:animate-shake motion-reduce:transition-none"
                   onClick={() => setOpen((p) => (p === it.id ? null : it.id))}
                   aria-expanded={isOpen(it.id)}
                   aria-controls={`faq-${it.id}`}
@@ -67,30 +86,32 @@ export default function FAQ() {
                   <span className="text-xs uppercase tracking-widest text-neutral-600 group-hover:rotate-6">
                     {isOpen(it.id) ? "close" : "open"}
                   </span>
+                  <span className="pointer-events-none absolute -left-2 -top-3 rotate-6 rounded border-2 border-black bg-red-700 px-2 py-0.5 text-[10px] font-black tracking-widest text-white">
+                    {stamp}
+                  </span>
                 </button>
                 <div
                   id={`faq-${it.id}`}
-                  className={`overflow-hidden border-2 border-t-0 border-black bg-yellow-200 px-4 transition-[max-height,opacity] duration-500 ease-in-out delay-100 ${
-                    isOpen(it.id) ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                  className={`overflow-hidden border-2 border-t-0 border-black bg-neutral-200 px-4 ${
+                    isOpen(it.id) ? "max-h-52 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <p className="py-3 text-sm text-black/80">
+                  <p className={`py-3 text-sm text-neutral-900 ${isOpen(it.id) ? "animate-glitch" : ""}`}>
                     {it.a}
                   </p>
                 </div>
-                {isOpen(it.id) && (
-                  <span className="pointer-events-none absolute right-2 top-2 rotate-6 rounded border-2 border-black bg-yellow-300 px-2 text-[10px] font-black tracking-widest">
-                    RED FLAG
-                  </span>
+                {isHiddenBottom && isOpen(it.id) && (
+                  <div className="pb-2 text-[10px] font-black uppercase tracking-widest text-red-700">
+                    misplaced? good. keep questioning.
+                  </div>
                 )}
-                <div className="pointer-events-none absolute -inset-1 -z-10 translate-x-2 translate-y-2 bg-black" />
               </li>
             )
           })}
         </ul>
 
-        <div className="mt-4 text-right text-[10px] font-black uppercase tracking-widest text-neutral-400">
-          You can skip opening these. It won’t get any worse anyway.
+        <div className="mt-4 text-right text-[10px] font-black uppercase tracking-widest text-neutral-500">
+          You can close these. Interrogation never ends.
         </div>
       </div>
     </section>
