@@ -33,9 +33,9 @@ export default function FAQ() {
 
   return (
     <section id="faq" data-header-bg="rgba(245,245,244,0.8)" className="relative h-screen snap-start overflow-hidden bg-neutral-100 text-neutral-900">
-      <div className="pointer-events-none absolute inset-0 -rotate-45 opacity-20 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
+      <div className="pointer-events-none absolute inset-0 opacity-20 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
         <div className="absolute -inset-1 flex flex-col gap-10 animate-diag-marquee">
-          {Array.from({ length: 12 }).map((_, i) => (
+          {Array.from({ length: 16 }).map((_, i) => (
             <div key={i} className="whitespace-nowrap text-3xl font-black tracking-[0.35em] text-red-700 mix-blend-overlay opacity-50">
               SCROLL TO OBEY — QUESTION EVERYTHING — SCROLL TO OBEY — QUESTION EVERYTHING —
             </div>

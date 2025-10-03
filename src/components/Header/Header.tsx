@@ -26,14 +26,6 @@ export default function Header() {
         <a href="#" className="font-black tracking-tighter text-2xl md:text-3xl text-black">
           OVER·SCROLL
         </a>
-        <nav className="hidden gap-6 md:flex">
-          <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#hero">Hero</a>
-          <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#features">Features</a>
-          <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#faq">FAQ</a>
-          <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#testimonials">Testimonials</a>
-          <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#pricing">Pricing</a>
-          <a className="text-sm font-bold uppercase tracking-widest hover:line-through" href="#cta">CTA</a>
-        </nav>
         <button
           onClick={() => {
             window.dispatchEvent(new CustomEvent("overscroll:do-not-click"))
