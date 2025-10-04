@@ -8,6 +8,7 @@ import CTA from "../components/CTA/CTA"
 import Testimonials from "../components/Testimonials/Testimonials"
 import FloatingToast from "../components/Toast/FloatingToast"
 import Pricing from "../components/Pricing/Pricing"
+import Showcase from "../components/Showcase/Showcase"
 
 export default function ScrollPage() {
   const [showToast, setShowToast] = useState(true)
@@ -28,6 +29,7 @@ export default function ScrollPage() {
           <FAQ />
           <Testimonials />
           <Pricing />
+          <Showcase />
           <CTA />
         </main>
         <Footer />
