@@ -1,13 +1,8 @@
-export default function Features() {
-  const items = [
-    ['Infinite Motion', 'Why click when you can drift?', 'VOID'],
-    ['Louder Typography', 'Whispering is for footnotes.', 'HEAT'],
-    ['Aggressive Whitespace', 'Space, but make it tense.', 'RIOT'],
-    ['Contrarian CTA', 'Buttons that dare you not to.', 'BETA'],
-    ['Disruptive Layout', 'Rules are guidelines.', '404'],
-    ['Radical Contrast', 'Black, white, red.', 'GLITCH'],
-  ] as const
+import { FeatureCard } from "./FeatureCard";
+import { featuresData } from "../../utils/Features/featuresData";
+import { getFeatureLayout } from "../../utils/Features/getFeatureLayout";
 
+export default function Features() {
   return (
     <section
       id="features"
@@ -29,91 +24,20 @@ export default function Features() {
         </div>
 
         <div className="md:col-span-7 grid grid-cols-6 md:grid-cols-6 gap-2 md:gap-4">
-          {items.map(([title, desc, badge], i) => {
-            const smSpans = [
-              'col-span-2',
-              'col-span-2',
-              'col-span-2',
-              'col-span-2',
-              'col-span-2',
-              'col-span-2',
-            ] as const
-            const mdSpans = [
-              'md:col-span-4',
-              'md:col-span-2',
-              'md:col-span-3',
-              'md:col-span-3',
-              'md:col-span-2',
-              'md:col-span-4',
-            ] as const
-            const smAspects = [
-              'aspect-[4/3]',
-              'aspect-[4/3]',
-              'aspect-[4/3]',
-              'aspect-[5/4]',
-              'aspect-[16/11]',
-              'aspect-[5/4]',
-            ] as const
-            const mdAspects = [
-              'md:aspect-[20/9]',
-              'md:aspect-[5/3]',
-              'md:aspect-[2/1]',
-              'md:aspect-[5/3]',
-              'md:aspect-[16/9]',
-              'md:aspect-[2/1]',
-            ] as const
-            const smOffsets = [
-              '-translate-y-[2px]',
-              'translate-y-[3px]',
-              '-translate-y-[2px]',
-              'translate-y-[1px]',
-              '-translate-y-[2px]',
-              'translate-y-[2px]',
-            ] as const
-            const offsets = [
-              'md:-translate-y-2',
-              'md:translate-y-3',
-              'md:-translate-y-2',
-              'md:translate-y-1',
-              'md:-translate-y-2',
-              'md:translate-y-2',
-            ] as const
-            const tilt = ['-rotate-1', 'rotate-1', '-rotate-2', 'rotate-2'] as const
-            const isFirst = i === 0
-            const smSpan = smSpans[i % smSpans.length]
-            const mdSpan = mdSpans[i % mdSpans.length]
-            const smAspect = smAspects[i % smAspects.length]
-            const mdAspect = mdAspects[i % mdAspects.length]
-            const smOffset = smOffsets[i % smOffsets.length]
-            const offset = offsets[i % offsets.length]
-            const rot = tilt[i % tilt.length]
-
+          {featuresData.map(([title, desc, badge], i) => {
+            const layout = getFeatureLayout(i);
             return (
-              <div
+              <FeatureCard
                 key={title}
-                className={`group relative z-0 ${smSpan} ${mdSpan} ${rot} ${isFirst ? 'aspect-[16/9]' : smAspect} ${mdAspect} ${smOffset} ${offset} border-[3px] md:border-[4px] border-black bg-white shadow-[inset_0_0_0_2px_#000] transition will-change-transform hover:animate-shake`}
-              >
-                <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.8)_1px,transparent_1px)] [background-size:6px_6px] mix-blend-multiply transition-opacity duration-200" />
-
-                <div className="absolute inset-0 bg-black/95 transition-opacity duration-300 group-hover:opacity-0 z-10" />
-
-                <span className={`absolute inset-0 z-20 flex items-center justify-center ${isFirst ? 'text-3xl' : 'text-4xl'} md:text-6xl font-black tracking-widest text-red-700 transition-colors duration-300 group-hover:text-neutral-700/30`}>
-                  {badge}
-                </span>
-
-                <div className="relative p-3 md:p-4 z-0">
-                  <h3 className="font-extrabold tracking-tight text-black text-[clamp(18px,4.6vw,24px)] md:text-[clamp(18px,1.8vw,28px)] break-words animate-shake">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-neutral-900 text-[clamp(14px,3.4vw,19px)] md:text-[clamp(14px,1.4vw,20px)] leading-snug md:leading-normal break-words animate-shake">
-                    {desc}
-                  </p>
-                </div>
-              </div>
-            )
+                title={title}
+                desc={desc}
+                badge={badge}
+                layout={layout}
+              />
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }
