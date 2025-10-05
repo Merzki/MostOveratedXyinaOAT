@@ -1,3 +1,4 @@
+import { useRef } from "react"
 export default function Pricing() {
   const tiers = [
     {
@@ -39,6 +40,34 @@ export default function Pricing() {
     },
   ] as const
 
+  const scrollerRef = useRef<HTMLUListElement | null>(null)
+  const dragState = useRef({ down: false, startX: 0, startScroll: 0, pointerId: 0 })
+
+  const onPointerDown = (e: React.PointerEvent<HTMLUListElement>) => {
+    const el = scrollerRef.current
+    if (!el) return
+    dragState.current.down = true
+    dragState.current.startX = e.clientX
+    dragState.current.startScroll = el.scrollLeft
+    dragState.current.pointerId = e.pointerId
+    try { el.setPointerCapture(e.pointerId) } catch {}
+  }
+
+  const onPointerMove = (e: React.PointerEvent<HTMLUListElement>) => {
+    const el = scrollerRef.current
+    if (!el || !dragState.current.down) return
+    const dx = e.clientX - dragState.current.startX
+    el.scrollLeft = dragState.current.startScroll - dx
+    e.preventDefault()
+  }
+
+  const endDrag = () => {
+    const el = scrollerRef.current
+    if (!el) return
+    dragState.current.down = false
+    try { el.releasePointerCapture(dragState.current.pointerId) } catch {}
+  }
+
   return (
     <section
       id="pricing"
@@ -70,7 +99,14 @@ export default function Pricing() {
           </div>
         </div>
 
-        <ul className="md:grid md:grid-cols-3 md:gap-6 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 [scrollbar-width:'none'] [-ms-overflow-style:'none'] [&::-webkit-scrollbar]:hidden md:mx-0 md:flex-none md:overflow-visible md:px-0">
+        <ul
+          ref={scrollerRef}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          className="md:grid md:grid-cols-3 md:gap-6 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 [scrollbar-width:'none'] [-ms-overflow-style:'none'] [&::-webkit-scrollbar]:hidden md:mx-0 md:flex-none md:overflow-visible md:px-0 select-none cursor-grab active:cursor-grabbing md:cursor-auto touch-pan-x"
+        >
           {tiers.map((t, i) => {
             const isFeatured = t.id === "premium"
             const isExposure = t.id === "exposure"
@@ -87,14 +123,14 @@ export default function Pricing() {
             >
               <div className="absolute -inset-1 -z-10 translate-x-2 translate-y-2 bg-black" />
               <div className="mb-2 sm:mb-3 flex items-center justify-between">
-                <h3 className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight">{t.title}</h3>
-                <span className="rotate-2 rounded border-2 border-black bg-black px-2 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-white">
+                <h3 className="text-2xl sm:text-3xl md:text-3xl font-extrabold tracking-tight">{t.title}</h3>
+                <span className="rotate-2 rounded border-2 border-black bg-black px-2 py-0.5 text-[9px] sm:text[10px] font-black uppercase tracking-widest text-white">
                   {t.badge}
                 </span>
               </div>
               <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
                 <div className="text-2xl sm:text-4xl md:text-5xl font-black">{t.price}</div>
-                <div className={`text-[9px] sm:text-[11px] font-black uppercase tracking-widest ${(isFeatured || isExposure || i === 2) ? "text-white/80" : "text-neutral-700"}`}>{t.tagline}</div>
+                <div className={`text-xs sm:text-sm md:text-[11px] font-black uppercase tracking-widest ${(isFeatured || isExposure || i === 2) ? "text-white/80" : "text-neutral-700"}`}>{t.tagline}</div>
               </div>
               <ul className="mt-2 sm:mt-3 space-y-1.5 sm:space-y-2 text-[12px] sm:text-sm">
                 {t.points.map((p) => (

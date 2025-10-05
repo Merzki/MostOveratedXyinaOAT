@@ -17,8 +17,8 @@ export default function Features() {
       <div className="pointer-events-none absolute inset-0 bg-photocopy opacity-30" />
       <div className="pointer-events-none absolute inset-0 [background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.08)_2px,transparent_3px)] opacity-10" />
 
-      <div className="relative z-10 mx-auto grid h-full max-w-6xl grid-cols-1 items-center gap-6 px-6 py-12 md:grid-cols-12">
-        <div className="md:col-span-5">
+      <div className="relative z-10 mx-auto grid h-full max-w-6xl grid-cols-1 items-start md:items-center gap-4 md:gap-6 px-6 py-8 md:py-12 md:grid-cols-12">
+        <div className="md:col-span-5 self-center flex flex-col justify-end md:justify-start min-h-[100px] md:min-h-0">
           <h2 className="text-3xl font-black leading-none tracking-tighter md:text-6xl">
             FEATURES
             <span className="ml-3 inline-block -rotate-2 bg-black px-2 text-white">(!)</span>
@@ -28,7 +28,7 @@ export default function Features() {
           </p>
         </div>
 
-        <div className="md:col-span-7 grid grid-cols-4 md:grid-cols-6 gap-2 md:gap-4">
+        <div className="md:col-span-7 grid grid-cols-6 md:grid-cols-6 gap-2 md:gap-4">
           {items.map(([title, desc, badge], i) => {
             const smSpans = [
               'col-span-2',

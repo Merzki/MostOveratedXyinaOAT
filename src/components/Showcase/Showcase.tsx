@@ -8,6 +8,24 @@ export default function Showcase() {
     ["AI Everything", "Trend or takeover?", "2023"],
   ] as const
 
+  const styles: Record<string, string> = {
+    'Parallax Overdose': 'bg-gradient-to-b from-sky-200 to-indigo-300 shadow-[0_0_20px_rgba(0,0,0,0.25)]',
+    'Minimalism.exe': 'bg-white border border-neutral-200 text-neutral-500',
+    'Brutalism Revival #3': 'bg-yellow-400 text-black border-4 border-black',
+    'Glassmorphism': 'backdrop-blur-md bg-white/30 border border-white/40 text-white',
+    'Dark Mode Fetish': 'bg-black text-white border border-neutral-800 shadow-[0_0_12px_rgba(255,255,255,0.2)]',
+    'AI Everything': 'bg-gradient-to-r from-purple-700 via-cyan-500 to-indigo-900 text-white',
+  }
+
+  const hoverStyles: Record<string, string> = {
+    'Parallax Overdose': 'hover:brightness-110',
+    'Minimalism.exe': 'hover:contrast-110',
+    'Brutalism Revival #3': 'hover:animate-wiggle',
+    'Glassmorphism': 'hover:backdrop-blur-xl hover:brightness-125',
+    'Dark Mode Fetish': 'hover:[text-shadow:0_0_10px_white]',
+    'AI Everything': 'hover:[filter:contrast(120%)_hue-rotate(20deg)]',
+  }
+
   const rowSpans = [
     'row-span-1 sm:row-span-1 lg:row-span-2',
     'row-span-1 sm:row-span-1 lg:row-span-3',
@@ -24,8 +42,8 @@ export default function Showcase() {
       data-header-bg="rgba(245,245,245,0.85)"
       className="relative h-screen snap-start overflow-hidden bg-neutral-50 text-black"
     >
-      <div className="pointer-events-none absolute inset-0 bg-photocopy opacity-30" />
-      <div className="pointer-events-none absolute -inset-40 rotate-6 [background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.07)_2px,transparent_3px)] opacity-10" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.7)_40%,rgba(245,245,245,0.95)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/10 to-transparent" />
 
       <div className="pointer-events-none absolute inset-0 -rotate-12 flex items-center justify-center">
         <span className="select-none text-[12vw] md:text-[10rem] font-black tracking-tighter uppercase text-black/5 mix-blend-overlay">TREND ≠ TRUTH</span>
@@ -49,7 +67,7 @@ export default function Showcase() {
             return (
               <div
                 key={title}
-                className={`group relative ${span} ${rot} border-[3px] md:border-[4px] border-black bg-white shadow-[inset_0_0_0_2px_#000] overflow-hidden transition duration-300 hover:-rotate-1 hover:scale-[1.02] lg:even:translate-y-2 lg:odd:-translate-y-1`}
+                className={`group relative ${span} ${rot} ${styles[title] ?? 'bg-white'} shadow-[inset_0_0_0_2px_#000] overflow-hidden transition duration-300 hover:-rotate-1 hover:scale-[1.02] ${hoverStyles[title] ?? ''} lg:even:translate-y-2 lg:odd:-translate-y-1`}
               >
                 <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.85)_1px,transparent_1px)] [background-size:6px_6px] mix-blend-multiply transition-opacity duration-200" />
 
