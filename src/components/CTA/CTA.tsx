@@ -1,4 +1,10 @@
+import { useState } from 'react'
+import ConsentModal from '../Modals/ConsentModal'
+import ObjectModal from '../Modals/ObjectModal'
+
 export default function CTA() {
+  const [consentOpen, setConsentOpen] = useState(false)
+  const [objectOpen, setObjectOpen] = useState(false)
   return (
     <section
       id="cta"
@@ -14,14 +20,16 @@ export default function CTA() {
           or just keep scrolling. we both know how this ends.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
-          <button className="rounded border-2 border-black bg-black px-6 py-3 text-sm font-extrabold uppercase tracking-widest text-white transition hover:-rotate-2 hover:scale-105">
+          <button onClick={() => setConsentOpen(true)} className="rounded border-2 border-black bg-black px-6 py-3 text-sm font-extrabold uppercase tracking-widest text-white transition hover:-rotate-2 hover:scale-105">
             I Consent
           </button>
-          <button className="rounded border-2 border-black px-6 py-3 text-sm font-extrabold uppercase tracking-widest transition hover:rotate-1">
+          <button onClick={() => setObjectOpen(true)} className="rounded border-2 border-black px-6 py-3 text-sm font-extrabold uppercase tracking-widest transition hover:rotate-1">
             I Object
           </button>
         </div>
       </div>
+      <ConsentModal open={consentOpen} onClose={() => setConsentOpen(false)} />
+      <ObjectModal open={objectOpen} onClose={() => setObjectOpen(false)} />
     </section>
   )
 }
