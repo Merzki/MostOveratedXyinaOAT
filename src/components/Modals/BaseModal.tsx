@@ -1,14 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-
-interface BaseModalProps {
-  open: boolean
-  onClose: () => void
-  children: React.ReactNode
-  ariaLabel?: string
-  allowBackdropClose?: boolean
-  showCloseButton?: boolean
-}
+import type { BaseModalProps } from '../../types/modals'
+import { modalStyles } from '../../utils/Modals/styles'
 
 export default function BaseModal({ open, onClose, children, ariaLabel, allowBackdropClose = true, showCloseButton = true }: BaseModalProps) {
   const overlayRef = useRef<HTMLDivElement | null>(null)
@@ -36,7 +29,7 @@ export default function BaseModal({ open, onClose, children, ariaLabel, allowBac
       aria-modal="true"
       role="dialog"
       aria-label={ariaLabel}
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/60 backdrop-blur-[1px] animate-fadeIn"
+      className={modalStyles.overlay}
       onMouseDown={(e) => {
         if (!allowBackdropClose) return
         if (e.target === overlayRef.current) onClose()
@@ -44,12 +37,12 @@ export default function BaseModal({ open, onClose, children, ariaLabel, allowBac
     >
       <div
         ref={contentRef}
-        className="relative m-4 w-full max-w-2xl origin-center animate-popIn"
+        className={modalStyles.content}
       >
         {showCloseButton && (
           <button
             onClick={onClose}
-            className="absolute -right-3 -top-3 z-10 rounded-sm border-2 border-black bg-yellow-300 px-3 py-2 text-xs font-extrabold shadow hover:-rotate-2 hover:scale-105 md:-right-4 md:-top-4"
+            className={modalStyles.closeButton}
           >
             ✕
           </button>
