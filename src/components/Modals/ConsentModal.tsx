@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
 import BaseModal from './BaseModal'
 import { useConsentRitual } from '../../hooks/useConsentRitual'
 import type { ConsentModalProps } from '../../types/modals'
 import { consentText } from '../../utils/Modals/consentConfig'
 import { consentStyles } from '../../utils/Modals/styles'
-import { jokes } from '../../utils/Modals/showJokes'
 import CheckboxHint from '../atoms/CheckboxHint'
+import { useConsentHint } from '../../hooks/useConsentHint'
 
 export default function ConsentModal({ open, onClose }: ConsentModalProps) {
   const {
@@ -15,38 +14,7 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
     allowBackdropClose,
     showCloseButton,
   } = useConsentRitual({ open, onClose })
-
-  const [hintVisible, setHintVisible] = useState(false)
-  const [hintMessage, setHintMessage] = useState('')
-  const [hintKey, setHintKey] = useState(0)
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (hideTimerRef.current) {
-        clearTimeout(hideTimerRef.current)
-        hideTimerRef.current = null
-      }
-    }
-  }, [])
-
-  const handleCheckboxAttempt = (e: React.MouseEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (hideTimerRef.current) {
-      clearTimeout(hideTimerRef.current)
-      hideTimerRef.current = null
-    }
-
-    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)]
-    setHintMessage(randomJoke)
-
-    setHintKey((k) => k + 1)
-
-    setHintVisible(true)
-    hideTimerRef.current = setTimeout(() => setHintVisible(false), 5000)
-  }
+  const { visible: hintVisible, message: hintMessage, key: hintKey, onAttempt: handleCheckboxAttempt } = useConsentHint()
 
   return (
     <BaseModal
