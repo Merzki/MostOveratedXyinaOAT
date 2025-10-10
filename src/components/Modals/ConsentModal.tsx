@@ -1,8 +1,11 @@
+import { useEffect, useRef, useState } from 'react'
 import BaseModal from './BaseModal'
 import { useConsentRitual } from '../../hooks/useConsentRitual'
 import type { ConsentModalProps } from '../../types/modals'
 import { consentText } from '../../utils/Modals/consentConfig'
 import { consentStyles } from '../../utils/Modals/styles'
+import { jokes } from '../../utils/Modals/showJokes'
+import CheckboxHint from '../atoms/CheckboxHint'
 
 export default function ConsentModal({ open, onClose }: ConsentModalProps) {
   const {
@@ -12,6 +15,38 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
     allowBackdropClose,
     showCloseButton,
   } = useConsentRitual({ open, onClose })
+
+  const [hintVisible, setHintVisible] = useState(false)
+  const [hintMessage, setHintMessage] = useState('')
+  const [hintKey, setHintKey] = useState(0)
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current)
+        hideTimerRef.current = null
+      }
+    }
+  }, [])
+
+  const handleCheckboxAttempt = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current)
+      hideTimerRef.current = null
+    }
+
+    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)]
+    setHintMessage(randomJoke)
+
+    setHintKey((k) => k + 1)
+
+    setHintVisible(true)
+    hideTimerRef.current = setTimeout(() => setHintVisible(false), 5000)
+  }
 
   return (
     <BaseModal
@@ -23,11 +58,12 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
     >
       {!done ? (
         <div className={consentStyles.card}>
-          <div className="space-y-6">
+          <div className="space-y-6 relative">
             <header className="text-center">
               <h3 className={consentStyles.headerTitle}>{consentText.title}</h3>
               <p className={consentStyles.headerSubtitle}>{consentText.subtitle}</p>
             </header>
+
             <form onSubmit={handleSubmit} className="grid gap-4">
               <label className="grid gap-2">
                 <span className="text-xs font-extrabold uppercase tracking-widest">{consentText.nameLabel}</span>
@@ -37,6 +73,7 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
                   className={consentStyles.input}
                 />
               </label>
+
               <label className="grid gap-2">
                 <span className="text-xs font-extrabold uppercase tracking-widest">{consentText.hoursLabel}</span>
                 <input
@@ -47,6 +84,7 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
                   className={consentStyles.input}
                 />
               </label>
+
               <label className="grid gap-2">
                 <span className="text-xs font-extrabold uppercase tracking-widest">{consentText.lookingLabel}</span>
                 <input
@@ -55,10 +93,23 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
                   className={consentStyles.input}
                 />
               </label>
-              <label className="flex items-start gap-2">
-                <input type="checkbox" required defaultChecked className="mt-1 h-4 w-4 accent-black" />
-                <span className="text-xs font-semibold leading-snug">{consentText.checkboxLabel}</span>
+
+              <label className="flex items-start gap-2 relative">
+                <input
+                  type="checkbox"
+                  checked
+                  required
+                  onClick={handleCheckboxAttempt}
+                  className="mt-1 h-4 w-4 accent-black cursor-not-allowed"
+                  readOnly
+                />
+                <span className="text-xs font-semibold leading-snug">
+                  {consentText.checkboxLabel}
+                </span>
+
+                <CheckboxHint key={hintKey} message={hintMessage} visible={hintVisible} />
               </label>
+
               <div className="pt-2">
                 <button
                   type="submit"
@@ -88,4 +139,3 @@ export default function ConsentModal({ open, onClose }: ConsentModalProps) {
     </BaseModal>
   )
 }
-
